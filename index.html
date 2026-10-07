@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zahra Délices – Pâtisseries, gâteaux et croissants</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&family=Young+Serif&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EAF2E6;--ink:#2B1620;--rasp:#D6336C;--butter:#4f3527;--card:#FFFDF9;--mut:#66565c}
+*{box-sizing:border-box;margin:0}
+body{font:16px/1.6 'Nunito Sans',sans-serif;background:var(--bg);color:var(--ink)}
+h1,h2,h3{font-family:'Young Serif',serif;font-weight:400;line-height:1.1}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--rasp);outline-offset:2px}
+.w{max-width:1100px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid #d0decb}
+header .w{display:flex;justify-content:space-between;align-items:center;height:60px}
+.logo{font-family:'Young Serif',serif;font-size:22px;text-decoration:none;color:var(--rasp)}
+nav a{margin-left:20px;text-decoration:none;font-weight:700}
+.hero{overflow:hidden}
+.hero .w{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:20px;min-height:540px}
+h1{font-size:clamp(46px,7vw,88px)}
+.hero p{max-width:34ch;margin:18px 0 26px;font-size:19px}
+.btn{display:inline-block;border:0;border-radius:99px;background:var(--rasp);color:#fff;padding:13px 26px;font:700 16px 'Nunito Sans',sans-serif;cursor:pointer;text-decoration:none}
+.btn:hover{background:#b02558}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.blob{position:relative}
+.blob:before{content:"";position:absolute;inset:8% 4%;background:var(--butter);border-radius:50%}
+#cv{width:60%;max-width:200px;height:300px;margin-left:40%;margin-right:50%;object-fit:contain;animation:tourne 14s linear infinite,flotte 4s ease-in-out infinite alternate}@keyframes tourne{to{transform:rotate(360deg)}}
+@keyframes flotte{to{translate:0 -18px}}
+@media(prefers-reduced-motion:reduce){#cv{animation:none}}section{padding:70px 0}
+h2{font-size:clamp(30px,4vw,44px);margin-bottom:24px}
+.pills{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+.pill{border:2px solid var(--ink);background:none;border-radius:99px;padding:7px 18px;font:700 15px 'Nunito Sans',sans-serif;cursor:pointer;color:var(--ink)}
+.pill.on{background:var(--ink);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+.card{background:var(--card);border-radius:22px 22px 8px 22px;overflow:hidden;display:flex;flex-direction:column}
+.ph{position:relative;overflow:hidden;flex-shrink:0;height:160px;background:#f6dfe6;display:grid;place-items:center;font-size:64px}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}.cb{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cb h3{font-size:20px}
+.cb p{font-size:14px;color:var(--mut);flex:1}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.price{font-weight:700;color:var(--rasp)}
+.qty{display:flex;align-items:center;gap:10px;font-weight:700}
+.qty button{width:34px;height:34px;border-radius:50%;border:2px solid var(--rasp);background:#fff;color:var(--rasp);font:700 18px/1 sans-serif;cursor:pointer}
+.qty button:hover{background:var(--rasp);color:#fff}
+.about{background:var(--ink);color:#fff}
+.about .g{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+.about p{margin-bottom:14px;max-width:46ch}
+.about iframe{width:100%;height:340px;border:0;border-radius:22px}
+footer{padding:22px 0;text-align:center;font-size:14px;color:var(--mut)}
+#fab{position:fixed;right:18px;bottom:18px;z-index:6;box-shadow:0 6px 20px #0003}
+#dr{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);background:var(--card);z-index:7;padding:24px;transform:translateX(105%);transition:transform .3s;display:flex;flex-direction:column;gap:14px;box-shadow:-8px 0 30px #0003}
+#dr.open{transform:none}
+#dr ul{list-style:none;padding:0;flex:1;overflow:auto}
+#dr li{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #eee}
+.tot{display:flex;justify-content:space-between;font-size:20px;font-weight:700}
+input,select,textarea{width:100%;padding:11px 14px;border:2px solid #cdbfc4;border-radius:12px;font:inherit;background:#fff}
+.f{display:flex;flex-direction:column;gap:12px;background:var(--card);padding:22px;border-radius:20px}
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:34px}
+.ls{list-style:none;padding:0;margin:14px 0}
+.ls li{padding:8px 0;border-bottom:1px solid #cfdcc9;display:flex;justify-content:space-between;gap:10px}
+.ls .s{padding-left:22px}
+.ls button{border:0;background:none;color:var(--rasp);font-weight:700;cursor:pointer}
+@media(max-width:760px){.hero .w,.about .g,.ag{grid-template-columns:1fr}.hero .w{min-height:0;padding-top:30px}#cv{height:340px}nav a{margin-left:12px}}
+@media(prefers-reduced-motion:reduce){#dr{transition:none}}
+</style>
+</head>
+<body>
+<div id="site">
+<header><div class="w"><a class="logo" href="#top">Zahra Délices</a><nav><a href="#delices">Nos délices</a><a href="#apropos">À propos</a></nav></div></header>
+<div class="hero" id="top"><div class="w">
+<div><h1>Zahra Délices</h1><p>Gâteaux de tous les goûts, croissants dorés et pâtisseries faites maison.</p><a class="btn" href="#delices">Voir nos délices</a></div>
+<div class="blob"><img id="cv" src="gateau.png" alt="Gâteau Zahra Délices"></div></div></div>
+<section id="delices"><div class="w"><h2>Nos délices</h2><div class="pills" id="pills"></div><div class="grid" id="grid"></div></div></section>
+<section class="about" id="apropos"><div class="w g">
+<div><h2>À propos</h2><p>Chez Zahra Délices, chaque gâteau, chaque croissant et chaque pâtisserie est préparé à la main avec des ingrédients choisis. Passez en boutique ou commandez sur WhatsApp.</p><p><b>Adresse :</b> <span id="ad"></span></p><a class="btn" id="wa" target="_blank" rel="noopener">Écrire sur WhatsApp</a></div>
+<iframe id="mp" title="Carte Google Maps" loading="lazy"></iframe>
+</div></section>
+<footer>© Zahra Délices</footer>
+<button class="btn" id="fab">Panier (<span id="cn2">0</span>)</button>
+<aside id="dr" aria-label="Panier"><h3>Votre panier</h3><ul id="items"></ul><div class="tot"><span>Total</span><span id="tot"></span></div><input id="nm" placeholder="Votre nom (facultatif)"><button class="btn" id="go">Commander sur WhatsApp</button><button class="pill" id="cl">Fermer</button></aside>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+const demo={cats:[{id:1,name:'Gâteaux'},{id:2,name:'Croissants'},{id:3,name:'Pâtisseries'}],prods:[
+{id:1,name:'Fraisier',description:'Crème légère et fraises fraîches.',price:12000,category_id:1},
+{id:2,name:'Chocolat intense',description:'Trois textures de chocolat noir.',price:14000,category_id:1},
+{id:3,name:'Croissant beurre',description:'Pur beurre, doré au four.',price:700,category_id:2},
+{id:4,name:'Croissant amande',description:'Crème d\'amande et amandes effilées.',price:1000,category_id:2},
+{id:5,name:'Éclair vanille',description:'Pâte à choux, crème vanille.',price:1200,category_id:3},
+{id:6,name:'Tartelette citron',description:'Citron vif, meringue dorée.',price:1500,category_id:3}]};
+const $=s=>document.querySelector(s),fmt=n=>Number(n).toLocaleString('fr-FR')+' F';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const live=!C.SB_URL.startsWith('VOTRE');
+const sb=live?supabase.createClient(C.SB_URL,C.SB_KEY):null;
+let cats=[],prods=[],cat=0,cart={};
+
+async function load(){
+  if(live){
+    const a=await sb.from('categories').select('*').order('id'),b=await sb.from('products').select('*').order('id');
+    cats=a.data||[];prods=b.data||[];
+  }else{cats=demo.cats;prods=demo.prods}
+  render();
+}
+const img=p=>p.image_url&&/^https?:/.test(p.image_url)?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy">`:'🧁';
+function render(){
+  $('#pills').innerHTML=[{id:0,name:'Tout'},...cats].map(c=>`<button class="pill ${c.id==cat?'on':''}" data-c="${c.id}">${esc(c.name)}</button>`).join('');
+  const L=prods.filter(p=>!cat||p.category_id==cat);
+  $('#grid').innerHTML=L.length?L.map(p=>`<div class="card"><div class="ph">${img(p)}</div><div class="cb"><h3>${esc(p.name)}</h3><p>${esc(p.description||'')}</p><div class="row"><span class="price">${fmt(p.price)}</span><div class="qty"><button data-d="-1" data-p="${p.id}" aria-label="Retirer un ${esc(p.name)}">−</button><span id="q${p.id}">${cart[p.id]||0}</span><button data-d="1" data-p="${p.id}" aria-label="Ajouter un ${esc(p.name)}">+</button></div></div></div></div>`).join(''):'<p>Aucun délice dans cette catégorie pour le moment.</p>';
+  cartUI();
+}
+function cartUI(){
+  const it=Object.keys(cart).map(i=>({p:prods.find(x=>x.id==i),n:cart[i]})).filter(x=>x.p&&x.n);
+  const t=it.reduce((s,x)=>s+x.p.price*x.n,0),n=it.reduce((s,x)=>s+x.n,0);
+  $('#cn2').textContent=n;
+  $('#items').innerHTML=it.length?it.map(x=>`<li><span>${x.n} × ${esc(x.p.name)}</span><b>${fmt(x.p.price*x.n)}</b></li>`).join(''):'<li>Votre panier est vide. Choisissez des délices avec les boutons + et −.</li>';
+  $('#tot').textContent=fmt(t);$('#go').disabled=!n;
+  return{it,t};
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.c!==undefined){cat=+b.dataset.c;render()}
+  if(b.dataset.d){const id=b.dataset.p;cart[id]=Math.max(0,(cart[id]||0)+ +b.dataset.d);const q=$('#q'+id);if(q)q.textContent=cart[id];cartUI()}
+});
+$('#fab').onclick=()=>$('#dr').classList.add('open');
+$('#cl').onclick=()=>$('#dr').classList.remove('open');
+$('#go').onclick=()=>{
+  const{it,t}=cartUI(),nm=$('#nm').value.trim();
+  const m=`Bonjour Zahra Délices, je souhaite commander :\n${it.map(x=>`- ${x.n} × ${x.p.name} (${fmt(x.p.price*x.n)})`).join('\n')}\nTotal : ${fmt(t)}${nm?`\nNom : ${nm}`:''}`;
+  window.open(`https://wa.me/${C.WA}?text=${encodeURIComponent(m)}`,'_blank');
+};
+$('#ad').textContent=C.ADDR;
+$('#wa').href=`https://wa.me/${C.WA}?text=${encodeURIComponent('Bonjour Zahra Délices,')}`;
+$('#mp').src=`https://maps.google.com/maps?q=${encodeURIComponent(C.ADDR)}&output=embed`;
+
+/* ===== Gâteau 3D qui flotte et tourne ===== */
+function cake(){
+  if(!window.THREE)return;
+  const el=$('#cv'),r=new THREE.WebGLRenderer({canvas:el,alpha:true,antialias:true}),s=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,1,.1,50);
+  cam.position.set(0,2.6,10);cam.lookAt(0,.6,0);
+  s.add(new THREE.AmbientLight(0xffffff,.75));
+  const l=new THREE.DirectionalLight(0xffffff,.9);l.position.set(4,7,5);s.add(l);
+  const g=new THREE.Group();s.add(g);
+  const M=c=>new THREE.MeshStandardMaterial({color:c,roughness:.55});
+  let y=0;
+  [[.9,0x6b3f26,2],[.28,0xfff1f4,2.02],[.9,0x8a5233,1.9],[.28,0xfff1f4,1.92],[.9,0x6b3f26,1.8],[.4,0xf4a6bd,1.84]].forEach(([h,c,rad])=>{
+    const m=new THREE.Mesh(new THREE.CylinderGeometry(rad,rad,h,48),M(c));m.position.y=y+h/2;g.add(m);y+=h;
+  });
+  for(let i=0;i<7;i++){const a=i/7*Math.PI*2,b=new THREE.Mesh(new THREE.SphereGeometry(.26,20,16),M(0xc2185b));b.position.set(Math.cos(a)*1.25,y+.2,Math.sin(a)*1.25);g.add(b)}
+  const ch=new THREE.Mesh(new THREE.SphereGeometry(.34,24,18),M(0xd10f3a));ch.position.y=y+.3;g.add(ch);
+  const pl=new THREE.Mesh(new THREE.CylinderGeometry(2.5,2.5,.12,48),M(0xffffff));pl.position.y=-.06;g.add(pl);
+  g.rotation.x=.18;
+  const size=()=>{const w=el.clientWidth,h=el.clientHeight;r.setPixelRatio(Math.min(devicePixelRatio,2));r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()};
+  size();addEventListener('resize',size);
+  const calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  (function loop(t){g.position.y=calm?0:Math.sin(t/700)*.3;g.rotation.y=calm?.6:t/1600;r.render(s,cam);if(!calm)requestAnimationFrame(loop)})(0);
+}
+load();
+</script>
+</body>
+</html>

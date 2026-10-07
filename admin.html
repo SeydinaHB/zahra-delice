@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Administration – Zahra Délices</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&family=Young+Serif&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EAF2E6;--ink:#2B1620;--rasp:#D6336C;--butter:#F7D774;--card:#FFFDF9;--mut:#66565c}
+*{box-sizing:border-box;margin:0}
+body{font:16px/1.6 'Nunito Sans',sans-serif;background:var(--bg);color:var(--ink)}
+h1,h2,h3{font-family:'Young Serif',serif;font-weight:400;line-height:1.1}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--rasp);outline-offset:2px}
+.w{max-width:1100px;margin:0 auto;padding:0 20px}
+.btn{display:inline-block;border:0;border-radius:99px;background:var(--rasp);color:#fff;padding:13px 26px;font:700 16px 'Nunito Sans',sans-serif;cursor:pointer;text-decoration:none}
+.btn:hover{background:#b02558}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+section{padding:70px 0}
+h2{font-size:clamp(30px,4vw,44px);margin-bottom:24px}
+.pill{border:2px solid var(--ink);background:none;border-radius:99px;padding:7px 18px;font:700 15px 'Nunito Sans',sans-serif;cursor:pointer;color:var(--ink)}
+input,select,textarea{width:100%;padding:11px 14px;border:2px solid #cdbfc4;border-radius:12px;font:inherit;background:#fff}
+.f{display:flex;flex-direction:column;gap:12px;background:var(--card);padding:22px;border-radius:20px}
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:34px}
+.ls{list-style:none;padding:0;margin:14px 0}
+.ls li{padding:8px 0;border-bottom:1px solid #cfdcc9;display:flex;justify-content:space-between;gap:10px}
+.ls .s{padding-left:22px}
+.ls button{border:0;background:none;color:var(--rasp);font-weight:700;cursor:pointer}
+@media(max-width:760px){.ag{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<section><div class="w" id="ad"></div></section>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+const $=s=>document.querySelector(s),fmt=n=>Number(n).toLocaleString('fr-FR')+' F';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const live=!C.SB_URL.startsWith('VOTRE');
+const sb=live?supabase.createClient(C.SB_URL,C.SB_KEY):null;
+let cats=[],prods=[];
+async function load(){
+  const a=await sb.from('categories').select('*').order('id'),b=await sb.from('products').select('*').order('id');
+  cats=a.data||[];prods=b.data||[];
+}
+function shrink(f){return new Promise((ok,ko)=>{const i=new Image();i.onload=()=>{const k=Math.min(1,1000/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=Math.round(i.width*k);c.height=Math.round(i.height*k);c.getContext('2d').drawImage(i,0,0,c.width,c.height);c.toBlob(b=>b?ok(b):ko(new Error('image illisible')),'image/jpeg',.82)};i.onerror=()=>ko(new Error('image illisible'));i.src=URL.createObjectURL(f)})}
+async function adm(){
+  const b=$('#ad');
+  if(!live){b.innerHTML='<h2>Administration</h2><p>Renseignez d\'abord SB_URL et SB_KEY dans config.js.</p>';return}
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session){
+    b.innerHTML='<h2>Connexion</h2><form id="lf" class="f" style="max-width:400px"><input id="em" type="email" placeholder="E-mail" required><input id="pw" type="password" placeholder="Mot de passe" required><button class="btn">Se connecter</button><p id="er"></p></form>';
+    $('#lf').onsubmit=async e=>{e.preventDefault();const r=await sb.auth.signInWithPassword({email:$('#em').value,password:$('#pw').value});if(r.error)$('#er').textContent='E-mail ou mot de passe incorrect.';else adm()};
+    return;
+  }
+  await load();
+  b.innerHTML=`<h2>Administration</h2><div class="ag">
+<form id="cf" class="f"><h3>Nouvelle catégorie</h3><input id="cn" placeholder="Nom (ex : Croissants)" required><button class="btn">Ajouter la catégorie</button></form>
+<form id="pf" class="f"><h3>Nouveau délice</h3><input id="pn" placeholder="Nom" required><select id="pc" required>${cats.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select><input id="pp" type="number" min="0" placeholder="Prix en FCFA" required><label for="pi">Photo du délice (facultatif)</label><input id="pi" type="file" accept="image/*"><img id="pv" alt="Aperçu" style="display:none;max-width:160px;border-radius:12px"><textarea id="pd" placeholder="Description courte"></textarea><button class="btn">Ajouter le délice</button></form></div>
+<h3>Catégories et délices</h3><ul class="ls">${cats.map(c=>`<li><b>${esc(c.name)}</b><button data-t="categories" data-i="${c.id}">Supprimer</button></li>`+prods.filter(p=>p.category_id==c.id).map(p=>`<li class="s"><span>${esc(p.name)} – ${fmt(p.price)}</span><button data-t="products" data-i="${p.id}">Supprimer</button></li>`).join('')).join('')}</ul>
+<button class="pill" id="lo">Se déconnecter</button> <a href="/" class="pill" style="text-decoration:none;display:inline-block">Voir le site</a>`;
+  $('#cf').onsubmit=async e=>{e.preventDefault();const r=await sb.from('categories').insert({name:$('#cn').value.trim()});r.error?alert('Erreur : '+r.error.message):adm()};
+  $('#pi').onchange=()=>{const f=$('#pi').files[0],v=$('#pv');if(f){v.src=URL.createObjectURL(f);v.style.display='block'}else v.style.display='none'};
+  $('#pf').onsubmit=async e=>{e.preventDefault();const bt=$('#pf button');bt.disabled=true;bt.textContent='Envoi en cours...';
+    let url=null;const f=$('#pi').files[0];
+    if(f){try{const blob=await shrink(f),name=Date.now()+'-'+Math.random().toString(36).slice(2,8)+'.jpg';const u=await sb.storage.from('delices').upload(name,blob,{contentType:'image/jpeg'});if(u.error)throw u.error;url=sb.storage.from('delices').getPublicUrl(name).data.publicUrl}catch(x){alert('Erreur photo : '+x.message);bt.disabled=false;bt.textContent='Ajouter le délice';return}}
+    const r=await sb.from('products').insert({name:$('#pn').value.trim(),category_id:+$('#pc').value,price:+$('#pp').value,image_url:url,description:$('#pd').value.trim()||null});r.error?alert('Erreur : '+r.error.message):adm()};
+  $('#lo').onclick=async()=>{await sb.auth.signOut();adm()};
+  b.querySelectorAll('.ls button').forEach(x=>x.onclick=async()=>{
+    if(!confirm('Supprimer cet élément ?'))return;
+    const r=await sb.from(x.dataset.t).delete().eq('id',x.dataset.i);r.error?alert('Erreur : '+r.error.message):adm();
+  });
+}
+
+adm();
+</script>
+</body>
+</html>
